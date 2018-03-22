@@ -1,30 +1,19 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Main (main) where
 
-import           Data.Foldable (for_)
-import           Data.Text     (Text)
+import           Control.Applicative ((<|>))
+import           Data.Semigroup      ((<>))
+import           Options.Applicative (execParser, flag', fullDesc, helper, info,
+                                      long, progDesc)
 
-data Language = Cxx | Java
-    deriving (Bounded, Enum)
-
-allLanguages :: [Language]
-allLanguages = [minBound..]
-
-data Serialize = Serialize
-
-serialize :: Serialize
-serialize = Serialize
-
-type Code = Text
-
-toCode :: Serialize -> Language -> Code
-toCode _ _ = ""
-
-export :: Language -> Code -> IO ()
-export _ _ = pure ()
+import           RON.Serialize.Gen   (Language (..), generate)
 
 main :: IO ()
-main =
-    for_ allLanguages $ \language ->
-        export language $ toCode serialize language
+main = do
+    language <- parseOptions
+    generate language
+  where
+    parseOptions = execParser $
+        info
+            (helper <*> options)
+            (fullDesc <> progDesc "Generate `serialize` code")
+    options = flag' Cxx (long "cxx") <|> flag' Java (long "java")

@@ -1,9 +1,19 @@
 name: serialize-gen
 
+library:
+  dependencies:
+    - directory
+    - text
+  source-dirs: lib
+
 executable:
+  dependencies:
+    - optparse-applicative
+
+    - serialize-gen
+
   main: Main
   source-dirs: exe
 
 dependencies:
   - base
-  - text

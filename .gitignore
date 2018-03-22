@@ -1,2 +1,3 @@
+.generated/
 .stack-work/
 serialize-gen.cabal
