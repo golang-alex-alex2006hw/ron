@@ -1,0 +1,9 @@
+name: serialize-gen
+
+executable:
+  main: Main
+  source-dirs: exe
+
+dependencies:
+  - base
+  - text
