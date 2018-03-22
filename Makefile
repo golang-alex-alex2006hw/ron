@@ -30,7 +30,11 @@ $(serialize_java):
 test: test_serialize_cxx test_serialize_java
 
 .PHONY: test_serialize_cxx
-test_serialize_cxx:  $(serialize_cxx)
+test_serialize_cxx: $(serialize_cxx) test/serialize_cxx/main.cpp
+	mkdir -p .build
+	g++ $^ -o .build/$@
+	.build/$@
 
 .PHONY: test_serialize_java
 test_serialize_java: $(serialize_java)
+	# false
